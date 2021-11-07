@@ -1,5 +1,7 @@
 {
   "name": "ioc-container",
+  "type":"module",
+  "module":"true",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -15,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/ddgroleau/IOC-Container-JS/issues"
   },
-  "homepage": "https://github.com/ddgroleau/IOC-Container-JS#readme"
+  "homepage": "https://github.com/ddgroleau/IOC-Container-JS#readme",
+  "dependencies": {
+    "jest": "^27.3.1"
+  }
 }
