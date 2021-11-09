@@ -1,23 +1,7 @@
-class Shoes {
-
-}
-
-class Person {
-    constructor(shoes) {
-        this._shoes=shoes;
-    }
-    get shoes() {
-        return this._shoes;
-    }
-}
-
 class IocContainer {
     constructor() {
         this._services = {}
         this._dependencies = {}
-
-        this._registerService("Shoes", Shoes);
-        this._registerService("Person", Person, [Shoes]);
     }
 
     get services() {
@@ -36,22 +20,25 @@ class IocContainer {
 
     _registerService(serviceName, className, dependencies) {
         this.services[serviceName] = className;
-        this.dependencies[serviceName] = dependencies; 
+        if(dependencies) {
+            this.dependencies[serviceName] = dependencies; 
+        } else {
+            this.dependencies[serviceName] = [];
+        }
     }
 
     _resolveDependencies(serviceName) {
         let dependencyInstances = [];
         let serviceDependencies = this._dependencies[serviceName];
         if(serviceDependencies) {
-            for (let i = 0; i < serviceDependencies.length; i++) {
-                let instance = this.injectService(`${serviceDependencies[i]}`.split(" ")[1]);
-                dependencyInstances.push(instance);
-            }
+            serviceDependencies.forEach(dependency => {
+            let instance = this.injectService(`${dependency}`.split(" ")[1]);
+            dependencyInstances.push(instance);
+           });
         }
         return dependencyInstances;
     }
 }
 
 const iocContainer = new IocContainer();
-
-export default iocContainer;
+module.exports = iocContainer;
